@@ -113,7 +113,8 @@ fn main() -> BixResult<()> {
                 if !no_ascii {
                     let hex_width = if !no_addr { width * 3 + 1 } else { width * 3 };
                     let printed_hex = chunk.len() * 3 + if chunk.len() > 8 { 1 } else { 0 };
-                    print!("{:width$}|", "", width = hex_width - printed_hex);
+                    let padding = hex_width.saturating_sub(printed_hex);
+                    print!("{:width$}|", "", width = padding);
 
                     for byte in chunk {
                         let ch = if (byte.is_ascii_graphic() || *byte == b' ') && !byte.is_ascii_control() {
