@@ -1,7 +1,12 @@
 [package]
 name = "bix"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
+description = "Simple xxd-like program in Rust"
+license-file = "LICENSE.TXT"
+repository = "https://github.com/JerryImMouse/bix"
+readme = "README.md"
+authors = ["JerryImMouse"]
 
 [dependencies]
 clap = { version="4.5", features=["derive"] }
