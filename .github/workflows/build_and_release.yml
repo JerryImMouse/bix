@@ -31,16 +31,21 @@ jobs:
       - name: Build release
         run: cargo build --release --target ${{ matrix.target }}
 
-      - name: Package
+      - name: Package Linux
+        if: matrix.os == 'ubuntu-latest'
         run: |
           mkdir dist
-          cp target/${{ matrix.target }}/release/bix${{ matrix.ext }} dist/
+          cp target/${{ matrix.target }}/release/bix dist/
           cd dist
-          if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            7z a bix-${{ matrix.target }}.zip bix${{ matrix.ext }}
-          else
-            tar czvf bix-${{ matrix.target }}.tar.gz bix${{ matrix.ext }}
-          fi
+          tar czvf bix-${{ matrix.target }}.tar.gz bix
+
+      - name: Package Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          mkdir dist
+          copy target\${{ matrix.target }}\release\bix.exe dist\
+          cd dist
+          7z a bix-${{ matrix.target }}.zip bix.exe
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
